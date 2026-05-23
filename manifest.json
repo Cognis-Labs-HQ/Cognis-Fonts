@@ -1,0 +1,13 @@
+{
+  "id": "fonts",
+  "name": "Fonts",
+  "version": "1.0.0",
+  "class": "extension",
+  "coreApiVersion": "v1",
+  "capabilities": [],
+  "entrypoints": {
+    "api": "./api/index.js",
+    "ui": "./ui/index.html"
+  },
+  "publisher": "Cognis Labs"
+}
