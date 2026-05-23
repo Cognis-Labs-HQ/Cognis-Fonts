@@ -1,6 +1,7 @@
 const SECTION_ID = "module-fonts";
 const DEFAULT_FONT = "Orbitron";
 const DEFAULT_FONT_SIZE = 12;
+const FALLBACK_FONTS = ["Arial", "sans-serif"];
 
 function translate(i18n, key, fallback) {
     const value = i18n?.t?.(key);
@@ -204,7 +205,9 @@ export function createSettingsSection({ i18n, root, markDirty }) {
         await ensureLoaded();
 
         availableFonts = await loadFontsCatalog().catch(() => []);
-        if (!availableFonts.length) availableFonts.push(DEFAULT_FONT);
+        if (!availableFonts.length) {
+            availableFonts.push(...FALLBACK_FONTS);
+        }
         if (!availableFonts.includes(currentFont)) availableFonts.unshift(currentFont);
 
         const fontOptions = availableFonts
