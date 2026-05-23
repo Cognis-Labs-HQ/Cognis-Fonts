@@ -74,19 +74,19 @@ function applyUiPreferences(prefs) {
     if (fontFamily) {
         document.documentElement.style.setProperty("--app-font", fontFamily);
     }
-
-    function readStoredUiPrefs() {
-        try {
-            return JSON.parse(localStorage.getItem("cognis_ui_preferences") || "{}");
-        } catch {
-            return {};
-        }
-    }
     const rawSize = prefs?.appFontSize;
     if (rawSize != null) {
         const size = Number(rawSize);
         const ptSize = size < 8 ? Math.round(size * 12) : size;
         document.documentElement.style.setProperty("--app-font-size", `${ptSize}pt`);
+    }
+}
+
+function readStoredUiPrefs() {
+    try {
+        return JSON.parse(localStorage.getItem("cognis_ui_preferences") || "{}");
+    } catch {
+        return {};
     }
 }
 
@@ -224,8 +224,18 @@ export function createSettingsSection({ i18n, root, markDirty }) {
             )
             .join("");
 
-        const fontLabel = translate(i18n, "ui.app.settings.font", "Font");
-        const fontSizeLabel = translate(i18n, "ui.app.settings.font_size", "Font size");
+        const fontHeading = translate(i18n, "ui.app.settings.font", "Font");
+        const fontSelectLabel = fontHeading;
+        const increaseFontSizeLabel = translate(
+            i18n,
+            "ui.app.settings.font_size_increase",
+            "Increase font size",
+        );
+        const decreaseFontSizeLabel = translate(
+            i18n,
+            "ui.app.settings.font_size_decrease",
+            "Decrease font size",
+        );
         const previewLabel = translate(
             i18n,
             "ui.app.settings.font_preview",
@@ -240,26 +250,28 @@ export function createSettingsSection({ i18n, root, markDirty }) {
 
         const mountNode = root.querySelector(`#${SECTION_ID}-mount`);
         if (!mountNode) return;
+        const headingId = `${SECTION_ID}-heading`;
+        const previewId = `${SECTION_ID}-preview`;
 
         mountNode.innerHTML = `
-      <div class="font-heading-row">
-        <h3>${escapeHtml(fontLabel)}</h3>
+      <div class="font-heading-row" aria-labelledby="${escapeHtml(headingId)}">
+        <h3 id="${escapeHtml(headingId)}">${escapeHtml(fontHeading)}</h3>
         <button id="module-pref-font-reset" type="button">${escapeHtml(resetLabel)}</button>
       </div>
       <div class="font-picker-row">
         <label class="font-picker-label">
-          ${escapeHtml(fontLabel)}
+          ${escapeHtml(fontSelectLabel)}
           <select id="module-pref-font-select" class="theme-select">${fontOptions}</select>
         </label>
         <div class="font-size-stepper">
-          <button id="module-pref-font-size-up" class="font-size-btn" type="button" aria-label="${escapeHtml(fontSizeLabel)} +">▲</button>
-          <span id="module-pref-font-size-value"></span>
-          <button id="module-pref-font-size-down" class="font-size-btn" type="button" aria-label="${escapeHtml(fontSizeLabel)} -">▼</button>
+          <button id="module-pref-font-size-up" class="font-size-btn" type="button" aria-label="${escapeHtml(increaseFontSizeLabel)}">▲</button>
+          <span id="module-pref-font-size-value" role="status" aria-live="polite"></span>
+          <button id="module-pref-font-size-down" class="font-size-btn" type="button" aria-label="${escapeHtml(decreaseFontSizeLabel)}">▼</button>
         </div>
       </div>
       <div class="font-preview-box">
         <h4>${escapeHtml(previewLabel)}</h4>
-        <span id="module-pref-font-preview">${escapeHtml(previewSample)}</span>
+        <span id="${escapeHtml(previewId)}" role="region" aria-label="${escapeHtml(previewLabel)}">${escapeHtml(previewSample)}</span>
       </div>
     `;
 
