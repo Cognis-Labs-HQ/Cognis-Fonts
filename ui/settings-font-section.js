@@ -1,7 +1,6 @@
 const SECTION_ID = "module-fonts";
 const DEFAULT_FONT = "Orbitron";
 const DEFAULT_FONT_SIZE = 12;
-const MODULE_FONTS = ["Orbitron", "Audiowide", "Inter", "Arial", "sans-serif"];
 
 function translate(i18n, key, fallback) {
     const value = i18n?.t?.(key);
@@ -92,21 +91,12 @@ function readStoredUiPrefs() {
 
 async function loadFontsCatalog() {
     await document.fonts?.ready;
-    const seen = new Set(MODULE_FONTS);
+    const seen = new Set();
     document.fonts?.forEach((face) => {
         const family = face.family.replace(/^['"]|['"]$/g, "").trim();
         if (family) seen.add(family);
     });
     return Array.from(seen).sort((a, b) => a.localeCompare(b));
-}
-
-function ensureFontFaceStyles() {
-    if (document.querySelector('link[data-module-font-faces="true"]')) return;
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = "/static/modules/fonts/font-faces.css";
-    link.dataset.moduleFontFaces = "true";
-    document.head.append(link);
 }
 
 export function createSettingsSection({ i18n, root, markDirty }) {
@@ -117,7 +107,7 @@ export function createSettingsSection({ i18n, root, markDirty }) {
     let savedSize = DEFAULT_FONT_SIZE;
     let currentFont = DEFAULT_FONT;
     let currentSize = DEFAULT_FONT_SIZE;
-    let availableFonts = [...MODULE_FONTS];
+    let availableFonts = [];
 
     let fontSelect = null;
     let fontSizeValue = null;
@@ -211,10 +201,10 @@ export function createSettingsSection({ i18n, root, markDirty }) {
     }
 
     async function renderIntoRoot() {
-        ensureFontFaceStyles();
         await ensureLoaded();
 
-        availableFonts = await loadFontsCatalog().catch(() => [...MODULE_FONTS]);
+        availableFonts = await loadFontsCatalog().catch(() => []);
+        if (!availableFonts.length) availableFonts.push(DEFAULT_FONT);
         if (!availableFonts.includes(currentFont)) availableFonts.unshift(currentFont);
 
         const fontOptions = availableFonts
@@ -280,7 +270,7 @@ export function createSettingsSection({ i18n, root, markDirty }) {
     }
 
     return {
-        id: "module-fonts-appearance",
+        id: "fonts",
         label: translate(i18n, "ui.app.settings.font", "Font"),
         preferenceKey: "settings-module-fonts-layout",
         heading: translate(i18n, "ui.reuse.appearance", "Appearance"),
