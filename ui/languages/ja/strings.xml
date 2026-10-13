@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="module.fonts.name">フォント</string>
+    <string name="module.fonts.summary">アプリのフォントとサイズを選択します。</string>
+    <string name="module.fonts.description">Cognisの設定を使用するフォント管理。</string>
+    <string name="module.fonts.size.increase">文字を大きくする</string>
+    <string name="module.fonts.size.decrease">文字を小さくする</string>
+    <string name="module.fonts.preview">フォントのプレビュー</string>
+    <string name="module.fonts.preview.sample">素早い茶色のキツネが怠惰な犬を飛び越えます。</string>
+    <string name="module.fonts.reset">リセット</string>
+    <string name="module.fonts.appearance">外観</string>
+</resources>

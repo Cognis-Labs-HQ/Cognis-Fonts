@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="module.fonts.name">Fonts</string>
+    <string name="module.fonts.summary">Choose the application font and size.</string>
+    <string name="module.fonts.description">Application font controls using Cognis preferences.</string>
+    <string name="module.fonts.size.increase">Increase font size</string>
+    <string name="module.fonts.size.decrease">Decrease font size</string>
+    <string name="module.fonts.preview">Font preview</string>
+    <string name="module.fonts.preview.sample">The quick brown fox jumps over the lazy dog.</string>
+    <string name="module.fonts.reset">Reset</string>
+    <string name="module.fonts.appearance">Appearance</string>
+</resources>

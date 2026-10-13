@@ -1,3 +1,10 @@
+const uiCtx = globalThis[Symbol.for("cognis.uiCtx")];
+const preferences = uiCtx?.capabilities.get("fonts:preferences");
+if (!preferences)
+    throw new Error("Required UI capability unavailable: fonts:preferences");
+const loadPrefs = () => preferences.load();
+const savePrefs = (input) => preferences.save(input);
+
 const SECTION_ID = "module-fonts";
 const DEFAULT_FONT = "Orbitron";
 const DEFAULT_FONT_SIZE = 12;
@@ -34,62 +41,6 @@ function parseSavedFont(fontValue) {
     );
 }
 
-async function apiFetch(url, options = {}) {
-    return fetch(url, {
-        credentials: "include",
-        ...options,
-        headers: {
-            "content-type": "application/json",
-            ...(options.headers || {}),
-        },
-    });
-}
-
-async function loadPrefs() {
-    const account = localStorage.getItem("cognis_account");
-    if (!account) return null;
-    const response = await apiFetch(
-        `/api/v1/users/${encodeURIComponent(account)}/preferences/ui-preferences`,
-    );
-    if (!response.ok) return null;
-    const payload = await response.json();
-    const raw = payload?.data?.layoutJson;
-    return raw ? JSON.parse(raw) : null;
-}
-
-async function savePrefs(prefs) {
-    const account = localStorage.getItem("cognis_account");
-    if (!account) return;
-    await apiFetch(
-        `/api/v1/users/${encodeURIComponent(account)}/preferences/ui-preferences`,
-        {
-            method: "PUT",
-            body: JSON.stringify({ layout: prefs }),
-        },
-    );
-}
-
-function applyUiPreferences(prefs) {
-    const fontFamily = prefs?.appFont;
-    if (fontFamily) {
-        document.documentElement.style.setProperty("--app-font", fontFamily);
-    }
-    const rawSize = prefs?.appFontSize;
-    if (rawSize != null) {
-        const size = Number(rawSize);
-        const ptSize = size < 8 ? Math.round(size * 12) : size;
-        document.documentElement.style.setProperty("--app-font-size", `${ptSize}pt`);
-    }
-}
-
-function readStoredUiPrefs() {
-    try {
-        return JSON.parse(localStorage.getItem("cognis_ui_preferences") || "{}");
-    } catch {
-        return {};
-    }
-}
-
 async function loadFontsCatalog() {
     await document.fonts?.ready;
     const seen = new Set();
@@ -100,7 +51,11 @@ async function loadFontsCatalog() {
     return Array.from(seen).sort((a, b) => a.localeCompare(b));
 }
 
-export function createSettingsSection({ i18n, root, markDirty }) {
+export async function createSettingsSection({ i18n, root, markDirty }) {
+    const { ensurePageStylesheet } = await uiCtx.capabilities
+        .get("ui:reuse")
+        .importModule("page-styles.js");
+    await ensurePageStylesheet("/static/modules/fonts/styles/fonts.css");
     let loadedPrefs = null;
     let loaded = false;
 
@@ -152,7 +107,7 @@ export function createSettingsSection({ i18n, root, markDirty }) {
 
     async function ensureLoaded() {
         if (loaded) return;
-        loadedPrefs = await loadPrefs().catch(() => null);
+        loadedPrefs = await loadPrefs();
 
         const rawSize = Number(
             loadedPrefs?.appFontSize ??
@@ -160,7 +115,10 @@ export function createSettingsSection({ i18n, root, markDirty }) {
                 DEFAULT_FONT_SIZE,
         );
         const normalizedSize = rawSize < 8 ? Math.round(rawSize * 12) : rawSize;
-        const normalizedFontSize = Math.max(8, Math.min(24, Math.round(normalizedSize)));
+        const normalizedFontSize = Math.max(
+            8,
+            Math.min(24, Math.round(normalizedSize)),
+        );
         const normalizedFont = parseSavedFont(
             loadedPrefs?.appFont || loadedPrefs?.greetingFont,
         );
@@ -188,8 +146,11 @@ export function createSettingsSection({ i18n, root, markDirty }) {
         }
 
         const sizeUpButton = root.querySelector("#module-pref-font-size-up");
-        const sizeDownButton = root.querySelector("#module-pref-font-size-down");
-        if (sizeUpButton) sizeUpButton.onclick = () => setFontSize(currentSize + 1);
+        const sizeDownButton = root.querySelector(
+            "#module-pref-font-size-down",
+        );
+        if (sizeUpButton)
+            sizeUpButton.onclick = () => setFontSize(currentSize + 1);
         if (sizeDownButton)
             sizeDownButton.onclick = () => setFontSize(currentSize - 1);
         if (resetButton) {
@@ -204,11 +165,12 @@ export function createSettingsSection({ i18n, root, markDirty }) {
     async function renderIntoRoot() {
         await ensureLoaded();
 
-        availableFonts = await loadFontsCatalog().catch(() => []);
+        availableFonts = await loadFontsCatalog();
         if (!availableFonts.length) {
             availableFonts.push(...MINIMAL_FONTS);
         }
-        if (!availableFonts.includes(currentFont)) availableFonts.unshift(currentFont);
+        if (!availableFonts.includes(currentFont))
+            availableFonts.unshift(currentFont);
 
         const fontOptions = availableFonts
             .map(
@@ -217,29 +179,29 @@ export function createSettingsSection({ i18n, root, markDirty }) {
             )
             .join("");
 
-        const fontHeading = translate(i18n, "ui.app.settings.font", "Font");
+        const fontHeading = translate(i18n, "module.fonts.name", "Font");
         const fontSelectLabel = fontHeading;
         const increaseFontSizeLabel = translate(
             i18n,
-            "ui.app.settings.font_size_increase",
+            "module.fonts.size.increase",
             "Increase font size",
         );
         const decreaseFontSizeLabel = translate(
             i18n,
-            "ui.app.settings.font_size_decrease",
+            "module.fonts.size.decrease",
             "Decrease font size",
         );
         const previewLabel = translate(
             i18n,
-            "ui.app.settings.font_preview",
+            "module.fonts.preview",
             "Font preview",
         );
         const previewSample = translate(
             i18n,
-            "ui.app.settings.font_preview_sample",
+            "module.fonts.preview.sample",
             "The quick brown fox jumps over the lazy dog.",
         );
-        const resetLabel = translate(i18n, "ui.reuse.reset", "Reset");
+        const resetLabel = translate(i18n, "module.fonts.reset", "Reset");
 
         const mountNode = root.querySelector(`#${SECTION_ID}-mount`);
         if (!mountNode) return;
@@ -247,22 +209,22 @@ export function createSettingsSection({ i18n, root, markDirty }) {
         const previewId = `${SECTION_ID}-preview`;
 
         mountNode.innerHTML = `
-      <div class="font-heading-row" aria-labelledby="${escapeHtml(headingId)}">
+      <div class="module-fonts-heading" aria-labelledby="${escapeHtml(headingId)}">
         <h3 id="${escapeHtml(headingId)}">${escapeHtml(fontHeading)}</h3>
         <button id="module-pref-font-reset" type="button">${escapeHtml(resetLabel)}</button>
       </div>
-      <div class="font-picker-row">
-        <label class="font-picker-label">
+      <div class="module-fonts-picker">
+        <label class="module-fonts-label">
           ${escapeHtml(fontSelectLabel)}
           <select id="module-pref-font-select" class="theme-select">${fontOptions}</select>
         </label>
-        <div class="font-size-stepper">
-          <button id="module-pref-font-size-up" class="font-size-btn" type="button" aria-label="${escapeHtml(increaseFontSizeLabel)}">▲</button>
+        <div class="module-fonts-stepper">
+          <button id="module-pref-font-size-up" class="module-fonts-size" type="button" aria-label="${escapeHtml(increaseFontSizeLabel)}"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="m6 15 6-6 6 6" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
           <span id="module-pref-font-size-value" role="status" aria-live="polite"></span>
-          <button id="module-pref-font-size-down" class="font-size-btn" type="button" aria-label="${escapeHtml(decreaseFontSizeLabel)}">▼</button>
+          <button id="module-pref-font-size-down" class="module-fonts-size" type="button" aria-label="${escapeHtml(decreaseFontSizeLabel)}"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
         </div>
       </div>
-      <div class="font-preview-box">
+      <div class="module-fonts-preview">
         <h4>${escapeHtml(previewLabel)}</h4>
         <span id="${escapeHtml(previewId)}" role="region" aria-label="${escapeHtml(previewLabel)}">${escapeHtml(previewSample)}</span>
       </div>
@@ -274,12 +236,31 @@ export function createSettingsSection({ i18n, root, markDirty }) {
 
     return {
         id: "fonts",
-        label: translate(i18n, "ui.app.settings.font", "Font"),
-        preferenceKey: "settings-module-fonts-layout",
-        heading: translate(i18n, "ui.reuse.appearance", "Appearance"),
-        renderContent: () => `<div id="${SECTION_ID}-mount"></div>`,
-        onRender: () => {
-            void renderIntoRoot();
+        label: translate(i18n, "module.fonts.name", "Font"),
+        subComposerOptions: {
+            allowCustomization: false,
+            preferenceKey: "settings-module-fonts-layout",
+            heading: translate(i18n, "module.fonts.appearance", "Appearance"),
+            elements: [
+                {
+                    id: "fonts-preferences",
+                    label: translate(i18n, "module.fonts.name", "Font"),
+                    render: () => `<div id="${SECTION_ID}-mount"></div>`,
+                },
+            ],
+            onRender: () => {
+                void renderIntoRoot().catch((error) => {
+                    uiCtx.capabilities.get("ui:log")?.(
+                        "error",
+                        "Font preferences loading failed.",
+                        {
+                            component: "fonts",
+                            operation: "loadPreferences",
+                            errorName: error.name,
+                        },
+                    );
+                });
+            },
         },
         isDirty,
         save: async () => {
@@ -291,12 +272,6 @@ export function createSettingsSection({ i18n, root, markDirty }) {
             };
             await savePrefs(mergedPrefs);
             loadedPrefs = mergedPrefs;
-            applyUiPreferences(mergedPrefs);
-            const existing = readStoredUiPrefs();
-            localStorage.setItem(
-                "cognis_ui_preferences",
-                JSON.stringify({ ...existing, ...mergedPrefs }),
-            );
             savedFont = currentFont;
             savedSize = currentSize;
             emitDirtyState();

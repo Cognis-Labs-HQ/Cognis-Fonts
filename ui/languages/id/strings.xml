@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="module.fonts.name">Font</string>
+    <string name="module.fonts.summary">Pilih font dan ukuran aplikasi.</string>
+    <string name="module.fonts.description">Pengaturan font melalui preferensi Cognis.</string>
+    <string name="module.fonts.size.increase">Perbesar ukuran font</string>
+    <string name="module.fonts.size.decrease">Perkecil ukuran font</string>
+    <string name="module.fonts.preview">Pratinjau font</string>
+    <string name="module.fonts.preview.sample">Rubah cokelat yang gesit melompati anjing malas.</string>
+    <string name="module.fonts.reset">Atur ulang</string>
+    <string name="module.fonts.appearance">Tampilan</string>
+</resources>

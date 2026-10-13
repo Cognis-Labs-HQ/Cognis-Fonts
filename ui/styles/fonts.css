@@ -1,0 +1,25 @@
+.module-fonts-heading,
+.module-fonts-picker,
+.module-fonts-stepper {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.module-fonts-heading {
+    justify-content: space-between;
+}
+
+.module-fonts-picker {
+    flex-wrap: wrap;
+}
+
+.module-fonts-label,
+.module-fonts-preview {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.module-fonts-preview {
+    margin-top: 1rem;
+}
