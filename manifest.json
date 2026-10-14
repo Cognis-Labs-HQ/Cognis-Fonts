@@ -1,7 +1,7 @@
 {
     "id": "fonts",
     "name": "module.fonts.name",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "class": "extension",
     "coreApiVersion": "v1",
     "capabilities": [],
@@ -92,11 +92,11 @@
         },
         {
             "path": "package-lock.json",
-            "sha256": "18185d14ad88ef137f0d9ba94c441ead32a7a63a9aa5625be2d82cb65b87b8e6"
+            "sha256": "be4271ab038d2673686d998842c99d5acea8cff77bb0ed3b0d3939af9f801a51"
         },
         {
             "path": "package.json",
-            "sha256": "dd476a1c993eac46e630f47e1a2664ca8e1e582c4c93ad7fceb63a7bd0678b00"
+            "sha256": "5dd2a201bbd85924b2c7a6c6a9cfe5b45d7a38196db3d8c727101db59d9427e5"
         },
         {
             "path": "routes.json",
@@ -124,19 +124,19 @@
         },
         {
             "path": "ui/languages/de/strings.xml",
-            "sha256": "348aefa8e7f84346189a80019cff8e173ddfd6b2f93c61d8cecdf0390efe18ad"
+            "sha256": "5e1c3e227ec1e7c880ef1e6f6de70107ae2a3f172eda626ab1ed0838142c233c"
         },
         {
             "path": "ui/languages/en/strings.xml",
-            "sha256": "2c9cbc8709a6c21f4c398739280f12785a2567eef2d431a660be8ba069d4ec54"
+            "sha256": "857204361beb59363a90cc241b90a5b65cc8cb2929698785408a9fb694193935"
         },
         {
             "path": "ui/languages/id/strings.xml",
-            "sha256": "3392ab8a286f554e421ab0cd7a8b8da940c22914f8511383995cc99ea2e073cd"
+            "sha256": "b5710bcb0ad513f07096582830821f6b99bb9ee3f4e4ab7b6d0bfc00bf84a1bb"
         },
         {
             "path": "ui/languages/ja/strings.xml",
-            "sha256": "8a54d3dc3cb30e99a2637c0bafab46b395198db32f3d23795b5cbf0f73c0bb0c"
+            "sha256": "f787965bd3d8abd319c4601b314edaa98f6bf39b6130551728e072e4ad1983a8"
         },
         {
             "path": "ui/provider.js",

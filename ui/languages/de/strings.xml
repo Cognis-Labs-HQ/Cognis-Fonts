@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <string name="module.fonts.name">Schriftarten</string>
-    <string name="module.fonts.summary">Schriftart und Größe der Anwendung wählen.</string>
-    <string name="module.fonts.description">Schriftsteuerung über Cognis-Einstellungen.</string>
+    <string name="module.fonts.summary">Passen Sie Schriftart und Textgröße in Cognis an.</string>
+    <string name="module.fonts.description">Legen Sie die Schriftart und Textgröße der Anwendung über die Cognis-Einstellungen fest.</string>
     <string name="module.fonts.size.increase">Schriftgröße erhöhen</string>
     <string name="module.fonts.size.decrease">Schriftgröße verringern</string>
     <string name="module.fonts.preview">Schriftvorschau</string>

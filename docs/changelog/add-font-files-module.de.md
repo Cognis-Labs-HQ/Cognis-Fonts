@@ -6,6 +6,10 @@
 
 Vorlagenrichtlinien, domänenspezifische Routenpfade, übersetzte Integrationsdokumentation, ausführbare Strukturprüfungen und endgültige Paket-Hashes synchronisieren. Öffentliche URLs und Modulidentität bleiben erhalten. Browserbeiträge folgen den Lebenszyklusverträgen des zuständigen Hosts.
 
+## Einheitliche Marketplace-Texte
+
+Verwenden Sie kurze Aktionszusammenfassungen und konkrete Funktionsbeschreibungen in den Marketplace-Metadaten mit inhaltlich abgestimmten Übersetzungen.
+
 ## Commits
 
 - [3aa6b09](https://github.com/Cognis-Labs-HQ/Cognis-Fonts/commit/3aa6b09e38e06b703147ac3b823a9aefd4641f11)
