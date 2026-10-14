@@ -19,3 +19,4 @@ Marketplace のメタデータに短い操作概要と具体的な機能説明�
 - [3aa6b09](https://github.com/Cognis-Labs-HQ/Cognis-Fonts/commit/3aa6b09e38e06b703147ac3b823a9aefd4641f11)
 - [0df3426](https://github.com/Cognis-Labs-HQ/Cognis-Fonts/commit/0df342642060d749b4afa8c273221d4ad4588ce3)
 - [b91f39f](https://github.com/Cognis-Labs-HQ/Cognis-Fonts/commit/b91f39f0acb27fd927c3ee5e97bd98462165b3c4)
+- [f99b0a2](https://github.com/Cognis-Labs-HQ/Cognis-Fonts/commit/f99b0a24ea61cf1d761eb97fdeea72f2a8bf65a5)
