@@ -2,6 +2,10 @@
 
 **Feature-Branch:** add-font-files-module
 
+## Paketziele und Entwicklerhinweise
+
+Ausgabe 1.0.3 — Die Paketprüfung stellt sicher, dass Einstiegspunkte, Icons, Banner und Screenshots reguläre Dateien innerhalb des Checkouts sind, auch nach Pfadauflösung. Die Dokumentation beschreibt öffentliche Verträge und verweist für Veröffentlichungsmetadaten auf Manifeste; Änderungsprotokolle behalten die Herkunft der Veröffentlichung. Schriftvorgaben, Katalogsuche, Familienformatierung, gespeicherte Familien und HTML-Escaping stammen aus Host-Wiederverwendungsverträgen. Einstellungen aktualisieren die sichtbare Vorschau und stoppen ausstehende Darstellung beim Abbau; Speichern nutzt weiterhin scoped Einstellungs-Flows.
+
 ## Standardstruktur und eigene Integration
 
 Vorlagenrichtlinien, domänenspezifische Routenpfade, übersetzte Integrationsdokumentation, ausführbare Strukturprüfungen und endgültige Paket-Hashes synchronisieren. Öffentliche URLs und Modulidentität bleiben erhalten. Browserbeiträge folgen den Lebenszyklusverträgen des zuständigen Hosts.

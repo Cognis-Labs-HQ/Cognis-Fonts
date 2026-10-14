@@ -1,7 +1,7 @@
 {
     "id": "fonts",
     "name": "module.fonts.name",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "class": "extension",
     "coreApiVersion": "v1",
     "capabilities": [],
@@ -20,7 +20,7 @@
     "files": [
         {
             "path": ".github/copilot-instructions.md",
-            "sha256": "17a67d72f0d595df6f6757b3a9a5146dde0431c65769342a50bfee07cd36663d"
+            "sha256": "502ddc8ef5f77c1d72bbacc26b964170b1b1242f92ba1628fa78dc343e4ceb2d"
         },
         {
             "path": ".gitignore",
@@ -63,6 +63,10 @@
             "sha256": "fe137c892c041bbb7a79d5ed3c6e44c70551a00bd311d57a8c64772223e43eb1"
         },
         {
+            "path": "api/tests/manifest-targets.test.js",
+            "sha256": "ead5d55842241939d629b43556cb20f87590b6a6c4b8cd5ae3c3dd4a8f188dd6"
+        },
+        {
             "path": "api/tests/module-structure.test.js",
             "sha256": "64f72e6c7e05c87fcc9dee01844e4cf46d9af8147bc862b30f65c64c299307d0"
         },
@@ -76,27 +80,27 @@
         },
         {
             "path": "docs/index.de.md",
-            "sha256": "7558ef3010c5beb5d53ada167c488d7ae768fc77948d1f19c73435d53fcceefb"
+            "sha256": "ab24ca7e35850b12bd087e2db8207a21303c81dac69b8e6cb0249d38fc9fbacd"
         },
         {
             "path": "docs/index.en.md",
-            "sha256": "c713f0c5f65dd011488e7ee461fa6c4339b3f94245cfca8204c15526fdb664d2"
+            "sha256": "5268fbb0e6ba50ca3a971dd078bffc407902c14381b5603d7d42b6fc91beda94"
         },
         {
             "path": "docs/index.id.md",
-            "sha256": "db2589ab29db5eaac6d04a1c321982d16054e83d7f4cbeab45649f7e4e30d514"
+            "sha256": "6abac03e933a902e3447f1802f3abae78fafcee8a2a128c352d86ff52170e1be"
         },
         {
             "path": "docs/index.ja.md",
-            "sha256": "3bab6253ee1a0612fd37c67faea0c4043de27785e394edcee65ef6b4dca22898"
+            "sha256": "8727d1ccee76d1a1afe5258b5b9445dff14d2796d7d82af2a72139179fd2289f"
         },
         {
             "path": "package-lock.json",
-            "sha256": "be4271ab038d2673686d998842c99d5acea8cff77bb0ed3b0d3939af9f801a51"
+            "sha256": "550af3e24a58084a459754293737a325f154bb8c46360789e59abe51ec02331e"
         },
         {
             "path": "package.json",
-            "sha256": "5dd2a201bbd85924b2c7a6c6a9cfe5b45d7a38196db3d8c727101db59d9427e5"
+            "sha256": "53c6a8f7057333d4cc3a899f2e411e6ab4e0e571491e8897069b2c5d903067c3"
         },
         {
             "path": "routes.json",
@@ -112,7 +116,7 @@
         },
         {
             "path": "scripts/validate-manifest.js",
-            "sha256": "c1981f7bfb7842fc6536047a52839d2fdd79764dfd3924bf42a81843576272fe"
+            "sha256": "944205e7335ee60ee6db1404e20c36733da8536ca594c76efbca1f130443b298"
         },
         {
             "path": "tooling/scripts/lint-placeholder.mjs",
@@ -144,15 +148,19 @@
         },
         {
             "path": "ui/settings-font-section.js",
-            "sha256": "8c9a66a23a0da24f23c7053ad8880b7dff2158b092953cbf6c0d91243f62dc64"
+            "sha256": "6857563c60b64628af1fc81813b21e31ae6da803254d4d76c295ea53e66f37c0"
         },
         {
             "path": "ui/styles/fonts.css",
             "sha256": "fc8e02d510f26294e4142007ba9a729c23426dbfe7da9fb2a98b4de2c66ce46c"
         },
         {
+            "path": "ui/templates/preferences.js",
+            "sha256": "b554c5abccdc81c923322f14ae66ab7ecf49db973c9d32a5576eb25ecbfb503d"
+        },
+        {
             "path": "ui/tests/preferences.test.js",
-            "sha256": "2c6e491ea8d29df2c9d1fa311eead0cd15f631ec9983fdfd7ab17fdd426249e5"
+            "sha256": "610675888e12e5e1ffc4dc37d6900a7e54aa07fba01bfc88f534f18fbf02145c"
         }
     ]
 }

@@ -26,7 +26,7 @@ After the final file change, run `npm run manifest:hashes`. The digest inventory
 
 Never import Cognis internals, sibling components, database drivers, auth implementations, gateways, adapters, or private package implementations. Pass authentication, authorization, persistence, request, logging, and UI behavior into handlers through a `ctx`-derived context. Route handlers validate and orchestrate; the owning capability executes provider-specific work. Browser consumers use gateway-owned UI clients rather than calling another gateway's API endpoints directly.
 
-Create meaningful orchestration as named flows with stable, ordered stage IDs. Extend a flow with removable stages instead of branching on a known component or editing its internals. A module may create a flow only when it owns that operation. Register everything through the scoped context so the host can track it.
+Create meaningful orchestration as named flows with stable, ordered stage IDs. Extend a flow with removable stages instead of branching on a known component or editing its internals. A module may create a flow only when it owns that operation. Register everything through the scoped context so the host can track it. Preserve published stage IDs when updating an existing flow; apply the casing convention to new identifiers without adding aliases.
 
 Register owned cleanup with `ctx.registerDisposer` when using host registrations that return a disposer, including health checks and keyring-data ownership. Return a disposer from `bootstrapModule` or export `teardownModule(ctx)` for resources scoped registration cannot remove. Export `uninstallModule(ctx, { deleteContent })` when the module persists content outside its checkout; preserve content unless `deleteContent` is true. When persisting account-owned data, contribute cleanup through the host deprovision flow and applicable keyring ownership contract, preserving unrelated shared content. Test install, enable-disable-enable, and uninstall paths. No route, static directory, UI contribution, capability, flow, stage, timer, listener, socket, or runtime script may survive teardown.
 
@@ -87,7 +87,7 @@ Declare hard dependencies sparingly and prefer capability requirements or soft d
 
 ## Tests and quality
 
-Tests must run in this standalone repository with local fakes for host capabilities. Test public route, capability, flow, lifecycle, authorization, localization, and manifest contracts rather than Cognis or sibling implementations. Every behavior change requires tests, safe logging, and synchronized documentation. Keep localized documentation variants structurally and semantically synchronized.
+Tests must run in this standalone repository with local fakes for host capabilities. Test public route, capability, flow, lifecycle, authorization, localization, and manifest contracts rather than Cognis or sibling implementations. Every behavior change requires tests, safe logging, and synchronized documentation. Keep localized documentation variants structurally and semantically synchronized. Avoid release version numbers in documentation except changelogs; describe public contracts and link manifests for current metadata.
 
 Run all of the following before committing:
 

@@ -2,6 +2,10 @@
 
 **Feature Branch:** add-font-files-module
 
+## Package targets and developer guidance
+
+Release 1.0.3 — Package validation checks that entrypoints, icons, banners and screenshots are regular files inside the checkout, including resolved paths. Documentation describes public contracts and refers to manifests for release metadata; changelogs retain release provenance. Font defaults, catalog discovery, family formatting, saved-family parsing and HTML escaping come from host reuse contracts. Settings update the visible preview and stop pending rendering on unmount; saving continues through scoped preference flows.
+
 ## Standard structure and owned integration
 
 Synchronize template guidance, domain route paths, localized integration documentation, executable structure checks and final package digests. Keep existing public URLs and module identity. Browser contributions follow their owning host lifecycle contracts.

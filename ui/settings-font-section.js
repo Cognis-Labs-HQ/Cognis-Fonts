@@ -1,55 +1,31 @@
+import { renderFontPreferences } from "./templates/preferences.js";
 const uiCtx = globalThis[Symbol.for("cognis.uiCtx")];
-const preferences = uiCtx?.capabilities.get("fonts:preferences");
-if (!preferences)
-    throw new Error("Required UI capability unavailable: fonts:preferences");
-const loadPrefs = () => preferences.load();
-const savePrefs = (input) => preferences.save(input);
+function getPreferences() {
+    const preferences = uiCtx.capabilities.get("fonts:preferences");
+    if (!preferences)
+        throw new Error(
+            "Required UI capability unavailable: fonts:preferences",
+        );
+    return preferences;
+}
+
+const loadPrefs = () => getPreferences().load();
+const savePrefs = (input) => getPreferences().save(input);
 
 const SECTION_ID = "module-fonts";
-const DEFAULT_FONT = "Orbitron";
-const DEFAULT_FONT_SIZE = 12;
-const MINIMAL_FONTS = ["Arial", "sans-serif"];
-
-function translate(i18n, key, fallback) {
-    const value = i18n?.t?.(key);
-    return value && value !== key ? value : fallback;
-}
-
-function escapeHtml(value) {
-    return String(value ?? "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#39;");
-}
-
-function toFontFamilyValue(font) {
-    if (!font) return DEFAULT_FONT;
-    return /^[a-zA-Z0-9-]+$/.test(font)
-        ? font
-        : `"${font.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
-}
-
-function parseSavedFont(fontValue) {
-    if (!fontValue || typeof fontValue !== "string") return DEFAULT_FONT;
-    return (
-        fontValue
-            .split(",")[0]
-            .trim()
-            .replace(/^['"]|['"]$/g, "") || DEFAULT_FONT
-    );
-}
-
-async function loadFontsCatalog() {
-    await document.fonts?.ready;
-    const seen = new Set();
-    document.fonts?.forEach((face) => {
-        const family = face.family.replace(/^['"]|['"]$/g, "").trim();
-        if (family) seen.add(family);
-    });
-    return Array.from(seen).sort((a, b) => a.localeCompare(b));
-}
+const [
+    {
+        DEFAULT_FONT,
+        DEFAULT_FONT_SIZE,
+        toFontFamilyValue,
+        parseSavedFont,
+        loadFontsCatalog,
+    },
+    { escapeHtml },
+] = await Promise.all([
+    uiCtx.capabilities.get("ui:reuse").importModule("font-prefs.js"),
+    uiCtx.capabilities.get("ui:reuse").importModule("escape-html.js"),
+]);
 
 export async function createSettingsSection({ i18n, root, markDirty }) {
     const { ensurePageStylesheet } = await uiCtx.capabilities
@@ -58,6 +34,7 @@ export async function createSettingsSection({ i18n, root, markDirty }) {
     await ensurePageStylesheet("/static/modules/fonts/styles/fonts.css");
     let loadedPrefs = null;
     let loaded = false;
+    let disposed = false;
 
     let savedFont = DEFAULT_FONT;
     let savedSize = DEFAULT_FONT_SIZE;
@@ -134,7 +111,7 @@ export async function createSettingsSection({ i18n, root, markDirty }) {
     function connectDom() {
         fontSelect = root.querySelector("#module-pref-font-select");
         fontSizeValue = root.querySelector("#module-pref-font-size-value");
-        fontPreview = root.querySelector("#module-pref-font-preview");
+        fontPreview = root.querySelector(`#${SECTION_ID}-preview`);
         resetButton = root.querySelector("#module-pref-font-reset");
 
         if (fontSelect) {
@@ -166,9 +143,7 @@ export async function createSettingsSection({ i18n, root, markDirty }) {
         await ensureLoaded();
 
         availableFonts = await loadFontsCatalog();
-        if (!availableFonts.length) {
-            availableFonts.push(...MINIMAL_FONTS);
-        }
+        if (disposed) return;
         if (!availableFonts.includes(currentFont))
             availableFonts.unshift(currentFont);
 
@@ -179,56 +154,14 @@ export async function createSettingsSection({ i18n, root, markDirty }) {
             )
             .join("");
 
-        const fontHeading = translate(i18n, "module.fonts.name", "Font");
-        const fontSelectLabel = fontHeading;
-        const increaseFontSizeLabel = translate(
-            i18n,
-            "module.fonts.size.increase",
-            "Increase font size",
-        );
-        const decreaseFontSizeLabel = translate(
-            i18n,
-            "module.fonts.size.decrease",
-            "Decrease font size",
-        );
-        const previewLabel = translate(
-            i18n,
-            "module.fonts.preview",
-            "Font preview",
-        );
-        const previewSample = translate(
-            i18n,
-            "module.fonts.preview.sample",
-            "The quick brown fox jumps over the lazy dog.",
-        );
-        const resetLabel = translate(i18n, "module.fonts.reset", "Reset");
-
         const mountNode = root.querySelector(`#${SECTION_ID}-mount`);
         if (!mountNode) return;
-        const headingId = `${SECTION_ID}-heading`;
-        const previewId = `${SECTION_ID}-preview`;
-
-        mountNode.innerHTML = `
-      <div class="module-fonts-heading" aria-labelledby="${escapeHtml(headingId)}">
-        <h3 id="${escapeHtml(headingId)}">${escapeHtml(fontHeading)}</h3>
-        <button id="module-pref-font-reset" type="button">${escapeHtml(resetLabel)}</button>
-      </div>
-      <div class="module-fonts-picker">
-        <label class="module-fonts-label">
-          ${escapeHtml(fontSelectLabel)}
-          <select id="module-pref-font-select" class="theme-select">${fontOptions}</select>
-        </label>
-        <div class="module-fonts-stepper">
-          <button id="module-pref-font-size-up" class="module-fonts-size" type="button" aria-label="${escapeHtml(increaseFontSizeLabel)}"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="m6 15 6-6 6 6" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
-          <span id="module-pref-font-size-value" role="status" aria-live="polite"></span>
-          <button id="module-pref-font-size-down" class="module-fonts-size" type="button" aria-label="${escapeHtml(decreaseFontSizeLabel)}"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
-        </div>
-      </div>
-      <div class="module-fonts-preview">
-        <h4>${escapeHtml(previewLabel)}</h4>
-        <span id="${escapeHtml(previewId)}" role="region" aria-label="${escapeHtml(previewLabel)}">${escapeHtml(previewSample)}</span>
-      </div>
-    `;
+        mountNode.innerHTML = renderFontPreferences({
+            sectionId: SECTION_ID,
+            fontOptions,
+            i18n,
+            escapeHtml,
+        });
 
         connectDom();
         syncControlsToState();
@@ -236,19 +169,20 @@ export async function createSettingsSection({ i18n, root, markDirty }) {
 
     return {
         id: "fonts",
-        label: translate(i18n, "module.fonts.name", "Font"),
+        label: i18n.t("module.fonts.name"),
         subComposerOptions: {
             allowCustomization: false,
             preferenceKey: "settings-module-fonts-layout",
-            heading: translate(i18n, "module.fonts.appearance", "Appearance"),
+            heading: i18n.t("module.fonts.appearance"),
             elements: [
                 {
                     id: "fonts-preferences",
-                    label: translate(i18n, "module.fonts.name", "Font"),
+                    label: i18n.t("module.fonts.name"),
                     render: () => `<div id="${SECTION_ID}-mount"></div>`,
                 },
             ],
             onRender: () => {
+                disposed = false;
                 void renderIntoRoot().catch((error) => {
                     uiCtx.capabilities.get("ui:log")?.(
                         "error",
@@ -260,6 +194,11 @@ export async function createSettingsSection({ i18n, root, markDirty }) {
                         },
                     );
                 });
+            },
+            onUnmount: () => {
+                disposed = true;
+                if (fontSelect) fontSelect.onchange = null;
+                if (resetButton) resetButton.onclick = null;
             },
         },
         isDirty,

@@ -2,6 +2,10 @@
 
 **Cabang Fitur:** add-font-files-module
 
+## Target paket dan panduan pengembang
+
+Rilis 1.0.3 — Validasi paket memastikan titik masuk, ikon, banner, dan tangkapan layar berupa file reguler di dalam checkout, termasuk setelah resolusi jalur. Dokumentasi menjelaskan kontrak publik dan merujuk manifes untuk metadata rilis; changelog mempertahankan asal-usul rilis. Default font, penemuan katalog, format keluarga, parsing keluarga tersimpan, dan escaping HTML berasal dari kontrak reuse host. Pengaturan memperbarui pratinjau yang terlihat dan menghentikan rendering tertunda saat dilepas; penyimpanan tetap memakai alur preferensi berskop.
+
 ## Struktur standar dan integrasi milik modul
 
 Sinkronkan panduan templat, jalur rute domain, dokumentasi integrasi terjemahan, pemeriksaan struktur, dan hash paket akhir. Pertahankan URL publik dan identitas modul. Kontribusi browser mengikuti kontrak siklus hidup host masing-masing.
