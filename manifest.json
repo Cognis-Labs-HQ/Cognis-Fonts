@@ -20,7 +20,7 @@
     "files": [
         {
             "path": ".github/copilot-instructions.md",
-            "sha256": "502ddc8ef5f77c1d72bbacc26b964170b1b1242f92ba1628fa78dc343e4ceb2d"
+            "sha256": "305db0443441d3b82c321ce644475f58ddf94ae024d24168912cb2a8824203fc"
         },
         {
             "path": ".gitignore",

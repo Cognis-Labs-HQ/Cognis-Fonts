@@ -14,6 +14,10 @@ Sinkronkan panduan templat, jalur rute domain, dokumentasi integrasi terjemahan,
 
 Gunakan ringkasan tindakan singkat dan deskripsi fitur konkret pada metadata Marketplace dengan makna terjemahan yang selaras.
 
+## Wajibkan kunci bahasa tanpa teks pengganti literal
+
+Instruksi AI melarang teks bahasa Inggris yang ditanam langsung untuk pengguna dalam setiap alur. Nilai yang tidak tersedia dalam bahasa pilihan dapat menggunakan kunci yang sama dari sumber daya XML bahasa Inggris. Nilai pengganti bahasa Inggris yang hilang atau kosong harus menimbulkan kegagalan eksplisit, bukan menampilkan teks Inggris literal, kunci mentah, atau teks kosong. Kesalahan terjemahan yang hilang tidak boleh disembunyikan.
+
 ## Komit
 
 - [3aa6b09](https://github.com/Cognis-Labs-HQ/Cognis-Fonts/commit/3aa6b09e38e06b703147ac3b823a9aefd4641f11)

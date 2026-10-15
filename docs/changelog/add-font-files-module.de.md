@@ -14,6 +14,10 @@ Vorlagenrichtlinien, domänenspezifische Routenpfade, übersetzte Integrationsdo
 
 Verwenden Sie kurze Aktionszusammenfassungen und konkrete Funktionsbeschreibungen in den Marketplace-Metadaten mit inhaltlich abgestimmten Übersetzungen.
 
+## Sprachschlüssel ohne wörtliche Ersatztexte verlangen
+
+Die KI-Anweisungen verbieten fest kodierte englische Benutzertexte in allen Abläufen. Fehlende Werte der bevorzugten Sprache dürfen dieselben Schlüssel der englischen XML-Ressourcen verwenden. Fehlende oder leere englische Ersatzwerte müssen ausdrücklich einen Fehler auslösen, statt englische Literale, rohe Schlüssel oder leeren Text anzuzeigen. Fehler wegen fehlender Übersetzungen dürfen nicht unterdrückt werden.
+
 ## Commits
 
 - [3aa6b09](https://github.com/Cognis-Labs-HQ/Cognis-Fonts/commit/3aa6b09e38e06b703147ac3b823a9aefd4641f11)

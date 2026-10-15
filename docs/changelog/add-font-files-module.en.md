@@ -14,6 +14,10 @@ Synchronize template guidance, domain route paths, localized integration documen
 
 Use short action summaries and concrete feature descriptions across marketplace metadata, keeping localized meanings aligned.
 
+## Require language keys without literal fallbacks
+
+AI instructions prohibit hardcoded English user-facing strings in every path. Missing preferred-language values may use the same keys from English XML resources; absent or empty English fallback values must fail explicitly instead of rendering literal English, raw keys, or blank text. Missing-translation errors must not be suppressed.
+
 ## Commits
 
 - [3aa6b09](https://github.com/Cognis-Labs-HQ/Cognis-Fonts/commit/3aa6b09e38e06b703147ac3b823a9aefd4641f11)
