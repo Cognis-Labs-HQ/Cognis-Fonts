@@ -1,0 +1,15 @@
+{
+    "name": "@cognis/module-fonts",
+    "version": "1.0.3",
+    "private": false,
+    "type": "module",
+    "scripts": {
+        "test": "node --test api/tests/*.test.js ui/tests/*.test.js",
+        "lint": "node tooling/scripts/lint-placeholder.mjs && node tooling/scripts/lint-readable.mjs",
+        "manifest:hashes": "node scripts/update-manifest-hashes.js",
+        "check:manifest": "node scripts/validate-manifest.js"
+    },
+    "devDependencies": {
+        "prettier": "<=3.9.6"
+    }
+}

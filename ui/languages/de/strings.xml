@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="module.fonts.name">Schriftarten</string>
+    <string name="module.fonts.summary">Passen Sie Schriftart und Textgröße in Cognis an.</string>
+    <string name="module.fonts.description">Legen Sie die Schriftart und Textgröße der Anwendung über die Cognis-Einstellungen fest.</string>
+    <string name="module.fonts.size.increase">Schriftgröße erhöhen</string>
+    <string name="module.fonts.size.decrease">Schriftgröße verringern</string>
+    <string name="module.fonts.preview">Schriftvorschau</string>
+    <string name="module.fonts.preview.sample">Franz jagt im komplett verwahrlosten Taxi quer durch Bayern.</string>
+    <string name="module.fonts.reset">Zurücksetzen</string>
+    <string name="module.fonts.appearance">Darstellung</string>
+</resources>
